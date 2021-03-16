@@ -1,3 +1,11 @@
 .updateForm {
     display: none;
 }
+
+.hidden {
+    display: none;
+}
+
+.shown {
+    display: block;
+}

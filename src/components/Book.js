@@ -6,7 +6,7 @@ export default function Book({ b, setUpdate, update }) {
     setUpdate(!update)
   }
 
-  let updateForm ;
+  let reference = React.useRef(null);
 
   async function sendUpdate(){
     const author = document.getElementById(b.author.fullName + b.Title).value;
@@ -20,25 +20,19 @@ export default function Book({ b, setUpdate, update }) {
     }
     await fetch('http://localhost:4000/books/' + b.id, method)
     setUpdate(!update);
-    updateForm.style.display = 'none';
   }
 
-  function handleUpdate(){
-    if (updateForm.style.display === 'none') updateForm.style.display = 'block';
-    else updateForm.style.display = 'none';
+  function handleUpdate(e){
+    if (reference.current.className === 'hidden' ) reference.current.className = 'shown';
+    else reference.current.className = 'hidden';
   }
-
-  React.useEffect(()=>{
-    updateForm = document.getElementById('update' + b.Title)
-    updateForm.style.display = 'none';
-  }, [])
 
   return (
     <>
       <div>Title: {b.Title}</div>
       <div>Author: {b.author.fullName}</div>
       <button onClick={handleUpdate}>Update</button>
-      <div className="updateForm" id={'update' + b.Title}>
+      <div className='hidden' ref={reference}>
         <input id={b.Title}/>Title
         <input id={b.author.fullName + b.Title}/>Author
         <button onClick={sendUpdate}>Submit</button>
